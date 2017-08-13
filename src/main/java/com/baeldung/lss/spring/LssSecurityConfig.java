@@ -26,8 +26,6 @@ public class LssSecurityConfig extends WebSecurityConfigurerAdapter {
         super();
     }
 
-    //
-
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception { // @formatter:off
         auth.userDetailsService(userDetailsService);

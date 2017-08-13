@@ -178,6 +178,11 @@ Module  3 - Lesson 1</description>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <jvmArguments>
+                        -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=9007
+                    </jvmArguments>
+                </configuration>
                 <dependencies>
                     <dependency>
                         <groupId>org.springframework</groupId>
