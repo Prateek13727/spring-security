@@ -9,4 +9,6 @@ public interface IUserService {
 
     User findUserByEmail(String email);
 
+    Iterable<User> findAll();
+
 }

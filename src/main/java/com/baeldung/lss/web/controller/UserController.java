@@ -31,7 +31,7 @@ class UserController {
 
     @RequestMapping
     public ModelAndView list() {
-        Iterable<User> users = this.userRepository.findAll();
+        Iterable<User> users = this.userService.findAll();
         return new ModelAndView("tl/list", "users", users);
     }
 
