@@ -2,6 +2,7 @@ package com.baeldung.lss.spring;
 
 import javax.annotation.PostConstruct;
 
+import com.baeldung.lss.security.LssLoggingFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.MethodInvokingFactoryBean;
 import org.springframework.context.annotation.Bean;
@@ -18,6 +19,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 
 import com.baeldung.lss.model.User;
 import com.baeldung.lss.persistence.UserRepository;
+import org.springframework.security.web.authentication.AnonymousAuthenticationFilter;
 
 @EnableWebSecurity
 @EnableAsync
@@ -29,11 +31,12 @@ public class LssSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private LssLoggingFilter lssLoggingFilter;
+
     public LssSecurityConfig() {
         super();
     }
-
-    //
 
     @PostConstruct
     private void saveTestUser() {
@@ -51,7 +54,9 @@ public class LssSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {// @formatter:off
+
         http
+        .addFilterBefore(lssLoggingFilter, AnonymousAuthenticationFilter.class)
         .authorizeRequests()
                 .antMatchers("/badUser*","/js/**").permitAll()
                 .anyRequest().authenticated()
