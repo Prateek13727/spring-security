@@ -31,7 +31,7 @@ public class LssSecurityConfig extends WebSecurityConfigurerAdapter {
             .and().formLogin()
                 .loginPage("/login")
                 .loginProcessingUrl("/doLogin")
-            .and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/doLogin", "GET"))
+            .and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/doLogout", "GET"))
             .and().httpBasic();
     }
 }
