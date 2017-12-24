@@ -11,20 +11,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import com.baeldung.lss.persistence.UserRepository;
-import com.baeldung.lss.web.model.User;
+import com.baeldung.lss.model.User;
 
 @Controller
 @RequestMapping("/")
 public class UserController {
 
-    private final UserRepository userRepository;
-
     @Autowired
-    public UserController(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+    UserRepository userRepository;
 
     @RequestMapping
     public ModelAndView list() {
@@ -59,7 +54,7 @@ public class UserController {
 
     @RequestMapping(value = "delete/{id}")
     public ModelAndView delete(@PathVariable("id") Long id) {
-        this.userRepository.deleteUser(id);
+        this.userRepository.delete(id);
         return new ModelAndView("redirect:/");
     }
 

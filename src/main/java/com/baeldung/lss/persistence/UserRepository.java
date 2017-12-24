@@ -1,15 +1,9 @@
 package com.baeldung.lss.persistence;
+import com.baeldung.lss.model.User;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.baeldung.lss.web.model.User;
+public interface UserRepository extends JpaRepository<User, Long> {
 
-public interface UserRepository {
-
-    Iterable<User> findAll();
-
-    User save(User user);
-
-    User findUser(Long id);
-
-    void deleteUser(Long id);
+    User findByEmail(String email);
 
 }
