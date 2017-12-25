@@ -5,9 +5,8 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
-import org.springframework.security.web.util.matcher.AndRequestMatcher;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 /**
  * Created by tracxn-lp-175 on 20/12/17.
@@ -16,22 +15,27 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 public class LssSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
+    UserDetailsService userDetailsService;
+
+    public LssSecurityConfig() {
+        super();
+    }
+
+    @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.
-        inMemoryAuthentication().
-        withUser("user").password("pass").
-        roles("USER");
+        auth.userDetailsService(userDetailsService);
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
             .authorizeRequests()
-            .anyRequest().authenticated()
+                .antMatchers("/signup", "/register").permitAll()
+                .anyRequest().authenticated()
             .and().formLogin()
-                .loginPage("/login")
+                .loginPage("/login").permitAll()
                 .loginProcessingUrl("/doLogin")
-            .and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/doLogout", "GET"))
+            .and().logout().permitAll().logoutRequestMatcher(new AntPathRequestMatcher("/doLogout", "GET"))
             .and().httpBasic();
     }
 }
