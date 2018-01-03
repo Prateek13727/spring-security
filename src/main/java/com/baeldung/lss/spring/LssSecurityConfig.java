@@ -30,7 +30,13 @@ public class LssSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
             .authorizeRequests()
-                .antMatchers("/signup", "/register").permitAll()
+                .antMatchers("/signup",
+                        "/register",
+                        "/registrationConfirm*",
+                        "/forgotPassword*",
+                        "/resetPassword*",
+                        "/changePassword*",
+                        "/savePassword*").permitAll()
                 .anyRequest().authenticated()
             .and().formLogin()
                 .loginPage("/login").permitAll()

@@ -14,5 +14,11 @@ public interface IUserService {
 
     void activateUser(String token) throws  Exception;
 
+    void resetPasssword(String email, HttpServletRequest request);
+
+    void changePassword(String token, Long id) throws  Exception;
+
+    void savePassword(String password, String passwordConfirmation) throws Exception;
+
     void createNewVerificationToken(User user, String token);
 }

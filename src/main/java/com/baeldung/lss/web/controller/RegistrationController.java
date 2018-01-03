@@ -20,19 +20,18 @@ import java.util.Calendar;
  * Created by tracxn-lp-175 on 23/12/17.
  */
 
-@RequestMapping(value = "/")
 @Controller
 public class RegistrationController {
 
     @Autowired
     UserService userService;
 
-    @RequestMapping(value = "signup")
+    @RequestMapping(value = "/signup")
     public ModelAndView registrationForm() {
         return new ModelAndView("registrationPage", "user", new User());
     }
 
-    @RequestMapping(value = "register")
+    @RequestMapping(value = "/register")
     public ModelAndView registerUser(@Valid final User user, final BindingResult result,  final HttpServletRequest request) {
         if (result.hasErrors()) {
             return new ModelAndView("registrationPage", "user", user);
@@ -46,7 +45,7 @@ public class RegistrationController {
         return new ModelAndView("redirect:/login");
     }
 
-    @RequestMapping(value = "registrationConfirm")
+    @RequestMapping(value = "/registrationConfirm")
     public ModelAndView activateUser(@RequestParam("token") final String token, final RedirectAttributes redirectAttributes) {
         try {
             userService.activateUser(token);

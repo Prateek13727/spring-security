@@ -30,7 +30,7 @@ public class LssApp1 {
 //    }
 
     public static void main(String[] args) throws Exception {
-        SpringApplication.run(new Class[] {LssSecurityConfig.class, LssApp1.class}, args);
+        SpringApplication.run(new Class[] {LssSecurityConfig.class, LssApp1.class, LssWebMvcConfiguration.class}, args);
     }
 
 }
