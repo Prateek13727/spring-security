@@ -27,6 +27,17 @@ public class User {
     @NotEmpty(message = "Password confirmation is required.")
     private String passwordConfirmation;
 
+    @Column
+    private Boolean enabled;
+
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
+    }
+
     private Calendar created = Calendar.getInstance();
 
     public Long getId() {

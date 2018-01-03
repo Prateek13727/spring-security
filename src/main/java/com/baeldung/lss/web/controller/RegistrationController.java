@@ -8,9 +8,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.Calendar;
 
 /**
  * Created by tracxn-lp-175 on 23/12/17.
@@ -29,17 +33,29 @@ public class RegistrationController {
     }
 
     @RequestMapping(value = "register")
-    public ModelAndView registerUser(@Valid final User user, final BindingResult result) {
+    public ModelAndView registerUser(@Valid final User user, final BindingResult result,  final HttpServletRequest request) {
         if (result.hasErrors()) {
             return new ModelAndView("registrationPage", "user", user);
         }
         try {
-            userService.registerNewUser(user);
+            userService.registerNewUser(user, request);
         } catch (EmailExistsException e) {
             result.addError(new FieldError("user", "email", e.getMessage()));
             return new ModelAndView("registrationPage", "user", user);
         }
         return new ModelAndView("redirect:/login");
     }
+
+    @RequestMapping(value = "registrationConfirm")
+    public ModelAndView activateUser(@RequestParam("token") final String token, final RedirectAttributes redirectAttributes) {
+        try {
+            userService.activateUser(token);
+            redirectAttributes.addFlashAttribute("message", "Your account verified successfully");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+        }
+        return new ModelAndView("redirect:/login");
+    }
+
 
 }

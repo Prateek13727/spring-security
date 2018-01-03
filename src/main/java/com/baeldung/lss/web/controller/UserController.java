@@ -47,11 +47,6 @@ public class UserController {
         return new ModelAndView("redirect:/{user.id}", "user.id", user.getId());
     }
 
-    @RequestMapping("foo")
-    public String foo() {
-        throw new RuntimeException("Expected exception in controller");
-    }
-
     @RequestMapping(value = "delete/{id}")
     public ModelAndView delete(@PathVariable("id") Long id) {
         this.userRepository.delete(id);
