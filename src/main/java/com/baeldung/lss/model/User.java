@@ -30,6 +30,13 @@ public class User {
     @Column
     private Boolean enabled;
 
+    public User () {
+    }
+
+    public User (String username) {
+        this.email = username;
+    }
+
     public Boolean getEnabled() {
         return enabled;
     }

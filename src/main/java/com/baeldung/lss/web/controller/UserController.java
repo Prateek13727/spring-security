@@ -3,6 +3,7 @@ package com.baeldung.lss.web.controller;
 import javax.validation.Valid;
 
 import com.baeldung.lss.model.User;
+import com.baeldung.lss.security.ActiveUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -14,6 +15,9 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.baeldung.lss.persistence.UserRepository;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Controller
 @RequestMapping("/")
 public class UserController {
@@ -21,9 +25,14 @@ public class UserController {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    ActiveUserService activeUserService;
+
     @RequestMapping
     public ModelAndView list() {
-        Iterable<User> users = this.userRepository.findAll();
+        List<String> allActiveUsers = activeUserService.getAllActiveUsers();
+        Iterable<User> users = allActiveUsers.stream().map(u -> new User(u)).collect(Collectors.toList());
+//        Iterable<User> users = this.userRepository.findAll();
         return new ModelAndView("users/list", "users", users);
     }
 
